@@ -1,3 +1,6 @@
+window.onerror = function(msg, src, line) {
+  alert('ERREUR ligne ' + line + ' : ' + msg);
+};
 /* ═══════════════════════════════════════════════════════════════
    IN-SECT — L'Échiquier des Colonies
    script.js — Gameplay complet + système freemium
