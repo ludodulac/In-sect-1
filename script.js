@@ -132,7 +132,7 @@ function updateShareDots() {
 // ── Partage via navigator.share() ──
 async function doShare() {
   const shareData = {
-    title: 'IN-SECT — L'Échiquier des Colonies',
+    title: "IN-SECT — L'Échiquier des Colonies",
     text: '🐝 Je joue à IN-SECT, un jeu de stratégie avec des insectes ! Reine, Araignée, Mouche... 4 colonies en guerre. Essaie !',
     url: window.location.href.split('?')[0],
   };
