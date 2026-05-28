@@ -32,10 +32,12 @@
 <div id="s-splash" class="screen">
   <!-- Image de fond plein écran -->
   <div class="splash-bg"></div>
-  <!-- Barre de chargement en bas -->
+  <!-- Bouton entrer + barre de chargement en bas -->
   <div class="splash-bottom">
-    <div class="splash-bar"><div class="splash-bar-fill"></div></div>
-    <div class="splash-sub">L'Échiquier des Colonies</div>
+    <button class="splash-enter-btn" id="splash-enter-btn" onclick="splashEnter()">
+      ENTRER DANS LE JEU
+    </button>
+    <div class="splash-bar"><div class="splash-bar-fill" id="splash-bar-fill"></div></div>
   </div>
 </div>
 
@@ -50,7 +52,7 @@
       <div class="menu-logo">IN-SECT</div>
       <div class="menu-sub">L'Échiquier des Colonies</div>
     </div>
-    <button class="menu-sound" id="snd-btn" onclick="toggleMute()">🔊</button>
+    <button class="menu-sound" id="snd-btn" onclick="openSoundModal()">🔊</button>
   </div>
 
   <!--
@@ -144,26 +146,27 @@
     <div class="topbar-btns">
       <div class="tdot" id="tdot"></div>
       <button class="btn-mini" onclick="showModal('rules')">📜</button>
+      <button class="btn-mini" id="snd-btn-game" onclick="openSoundModal()">🔊</button>
     </div>
   </div>
 
-  <!-- Plateau de jeu -->
+  <!-- Image insecte sélectionné + nom + description — compact, hauteur fixe -->
+  <div class="piece-showcase" id="piece-showcase">
+    <img src="" alt="" class="piece-showcase-img" id="piece-showcase-img">
+    <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;">
+      <div class="piece-showcase-name" id="piece-showcase-name"></div>
+      <div class="piece-showcase-desc" id="piece-showcase-desc"></div>
+    </div>
+  </div>
+
+  <!-- Plateau de jeu + message de phase juste au-dessus -->
   <div class="bwrap">
     <div class="phase-msg" id="phase-msg"></div>
     <div class="bframe" id="bframe"><div id="board"></div></div>
   </div>
 
-  <!-- Barre d'info pièce sélectionnée -->
-  <div class="pi" id="pi">
-    <div class="pii"><img src="reine_guepe_512.png" class="insect-icon" alt="Reine Guêpe"></div>
-    <div style="flex:1;min-width:0;">
-      <div class="pin">Touchez une pièce</div>
-      <div class="pid">⚔️ <b>Tueurs</b> : Reine, Araignée, Mouche, Fourmis · 🔄 <b>Déplaceurs</b> : Coccinelle (vivant), Scarabée (dépouille 💀)</div>
-    </div>
-  </div>
-
-  <!-- Cartes des joueurs -->
-  <div class="pp" id="pp"></div>
+  <!-- Cartes des joueurs — masquées -->
+  <div class="pp" id="pp" style="display:none"></div>
 </div>
 
 <!-- ════════════════════════════════════
@@ -221,6 +224,7 @@
         <div class="rule-stitle">Victoire</div>
         <p class="rule-text"><b>Assassinat</b> → Tuer la Reine ennemie : sa colonie s'effondre et toutes ses pièces vivantes sont <b>converties à votre couleur</b>.<br><br><b>Encerclement</b> → La Reine ennemie est piégée par les dépouilles (total ou contre un bord) <b>et</b> sa colonie n'a plus de Scarabée vivant → Victoire ! S'il reste un Scarabée, elle n'est <b>pas</b> piégée.</p>
       </div>
+      <div class="rule-copyright">© 2026 Ludovic Dulac — IN-SECT, L'Échiquier des Colonies. Tous droits réservés.</div>
     </div>
   </div>
 </div>
@@ -233,19 +237,18 @@
 <div class="modal-overlay hidden" id="modal-freemium">
   <div class="modal-box">
 
-    <!-- En-tête — pas de bouton fermer (popup bloquante) -->
+    <!-- En-tête — question à la place du titre -->
     <div class="modal-header">
-      <div class="modal-title">🔒 ACCÈS & DÉBLOCAGE</div>
+      <div class="modal-title">Vos 20 parties gratuites sont écoulées ?</div>
       <button class="modal-close" id="freemium-close" onclick="hideModal('freemium')">✕</button>
     </div>
 
     <div class="modal-body">
 
-      <!-- Icône + titre + sous-titre -->
+      <!-- Icône + sous-titre -->
       <div class="freemium-icon"><img src="reine_guepe_512.png" class="insect-icon insect-icon--lg" alt="Reine Guêpe"></div>
       <div class="freemium-title">Débloquez l'accès illimité</div>
       <div class="freemium-sub">
-        Vos 20 parties gratuites sont écoulées.<br>
         Choisissez une méthode pour continuer à jouer.
       </div>
 
@@ -285,7 +288,7 @@
           Au retour depuis Stripe avec ?premium=true → accès premium sauvegardé.
         -->
         <button class="btn-premium" onclick="goPremium()">
-          ⭐ Version Premium — 2,90 €
+          💳 Paiement unique — 2,90 €
         </button>
 
       </div>
@@ -299,7 +302,38 @@
   </div>
 </div>
 
-<!-- Script principal -->
+<!-- ════════════════════════════════════
+     MODAL SON — Musique & Bruitages
+════════════════════════════════════ -->
+<div class="modal-overlay hidden" id="modal-sound">
+  <div class="modal-box modal-box--small">
+    <div class="modal-header">
+      <div class="modal-title">🔊 SON</div>
+      <button class="modal-close" onclick="hideModal('sound')">✕</button>
+    </div>
+    <div class="modal-body sound-modal-body">
+      <label class="sound-toggle-row" onclick="toggleMusic()">
+        <div class="sound-toggle-info">
+          <span class="sound-toggle-icon">🎵</span>
+          <span class="sound-toggle-label">Musique</span>
+        </div>
+        <div class="sound-toggle-track" id="sound-track-music">
+          <div class="sound-toggle-thumb"></div>
+        </div>
+      </label>
+      <label class="sound-toggle-row" onclick="toggleSFX()">
+        <div class="sound-toggle-info">
+          <span class="sound-toggle-icon">💥</span>
+          <span class="sound-toggle-label">Bruitages</span>
+        </div>
+        <div class="sound-toggle-track" id="sound-track-sfx">
+          <div class="sound-toggle-thumb"></div>
+        </div>
+      </label>
+    </div>
+  </div>
+</div>
+
 <script src="script.js"></script>
 
 <!-- ════════════════════════════════════
