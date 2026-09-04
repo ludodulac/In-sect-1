@@ -1,93 +1,128 @@
-# Piano Lab — Design System
+# Piano Lab — Design System & Game UX
 
-## Intention
-Le produit doit ressembler à un **petit instrument numérique premium pour adulte**, pas à une plateforme scolaire ni à un jeu pour enfant.
+_Mise à jour : 4 septembre 2026_
 
-Mots-clés : sobre, musical, précis, calme, respirant, tactile, élégant.
+## Nouvelle intention
+Le premier design était élégant mais trop proche d'un catalogue de logiciels : il demandait à l'utilisateur de choisir avant de lui donner envie d'agir.
 
-## Couleurs
-Base :
-- fond : `#090909`
-- panneau : `#111111`
-- surface secondaire : `#171717` à `#181818`
-- ligne : `#292929` à `#303030`
-- texte : `#f4f0e8`
-- texte secondaire : `#9f9991`
+La nouvelle référence mentale est **une interface de jeu mobile premium appliquée à la pratique musicale** : hiérarchie immédiate, mission principale évidente, progression visible, gratification, déblocages et retour quotidien.
 
-Accent principal du hub : `#d8ff72`.
+Il ne s'agit pas de copier Clash Royale ou Duolingo visuellement. On emprunte leurs principes d'interaction et de progression pour créer une identité Piano Lab originale.
 
-Chaque app peut avoir un accent secondaire propre pour aider à identifier la compétence :
-- harmonie / progression : vert acide `#d8ff72`
-- rythme : lavande `#d7c2ff`
-- improvisation : ambre `#ffcf70`
-- autonomie / pratique : cyan `#8fe7ff`
-- voice leading : vert doux `#b6ffcf`
-- oreille : rose `#ff9fd4`
+## Discipline utilisée
+Le produit croise :
+- UX design — réduire les décisions et rendre l'action évidente ;
+- UI design — hiérarchie, lisibilité, tactilité ;
+- interaction design — feedback immédiat après chaque action ;
+- game design — missions, niveaux, progression, difficulté ;
+- behavioral design — donner une raison saine de revenir ;
+- learning design — chaque récompense correspond à une vraie compétence musicale.
 
-## Typographie
-Police système / Inter si disponible.
+## Principe n°1 : une action dominante
+La home ne dit plus « voici 8 outils ».
 
-Hiérarchie :
-- hero très grand, graisse 850–900, tracking négatif ;
-- titres de cartes 20–24 px ;
-- texte courant 13–17 px ;
-- labels / kicker 10–11 px uppercase avec tracking large.
+Elle dit :
 
-Éviter :
-- trop de tailles différentes ;
-- paragraphes trop larges ;
-- capitales partout ;
-- effets “gaming” agressifs.
+> **Voici ta mission du jour. Joue maintenant.**
 
-## Formes
-- grandes cartes : rayon 22–28 px ;
-- boutons : 14 px ;
-- chips : pilule ;
-- bordures 1 px discrètes ;
-- pas d'ombres lourdes ;
-- contraste obtenu surtout par surface + espace + accent.
+Un seul bouton principal doit dominer l'écran. Les autres exercices sont secondaires.
+
+## Boucle centrale
+**MISSION → ACTION AU PIANO → FEEDBACK → XP / PROGRESSION → PROCHAINE MISSION**
+
+La récompense ne doit jamais remplacer la musique. Elle rend visible l'effort et la continuité.
+
+## Architecture de la home
+1. Identité / niveau du joueur.
+2. XP + série de pratique.
+3. Mission du jour très dominante.
+4. Compétences du pianiste autonome.
+5. Route de progression avec étapes terminées, actuelle et verrouillées.
+6. Coffre/récompense de pratique.
+7. Défis rapides.
+8. Navigation mobile persistante.
+
+## Compétences visibles
+Le profil doit progressivement agréger de vraies données issues des apps :
+- Accords ;
+- Rythme ;
+- Oreille ;
+- Improvisation ;
+- Autonomie.
+
+À terme, ces scores ne doivent jamais être décoratifs : ils doivent provenir d'exercices ou diagnostics réels.
+
+## Progression
+La carte remplace le catalogue.
+
+Un exercice devient une **étape**. Une app peut être réutilisée dans plusieurs étapes avec une difficulté différente.
+
+Exemple Monde 1 — Fondations :
+1. 4 accords ;
+2. Le groove ;
+3. Intuition harmonique ;
+4. Chord Flow ;
+5. Oreille → Piano ;
+6. Transformer ;
+7. Improviser ;
+8. déblocage Monde 2.
+
+## Récompenses
+Utiliser avec modération :
+- XP = volume de pratique / progression ;
+- série = continuité de pratique ;
+- coffre = récompense pédagogique ou nouveau défi ;
+- niveau = étape de développement ;
+- déblocage = accès à une nouvelle difficulté ou compétence.
+
+Éviter les monnaies artificielles sans usage réel. Si une monnaie est affichée en prototype, elle devra être supprimée ou recevoir une fonction claire avant production.
+
+## Direction visuelle
+Plus tactile, plus profonde et plus énergique que la V1 :
+- fond violet nuit / bleu nuit ;
+- surfaces épaisses ;
+- boutons avec profondeur physique ;
+- cartes arrondies ;
+- couleurs par compétence ;
+- grandes zones de tap ;
+- icônes très simples ;
+- progression verticale lisible au pouce ;
+- effets de pression plutôt que simples hover desktop.
+
+Le résultat doit rester adulte : **jeu premium musical**, pas interface pour enfant.
 
 ## Motion
-Micro-interactions seulement :
-- hover `translateY(-2px)` ;
-- transitions 150–300 ms ;
-- beat/réponse pouvant pulser brièvement ;
-- éviter les animations décoratives permanentes.
+Le mouvement sert le feedback :
+- bouton qui s'enfonce au tap ;
+- XP qui progresse après une mission ;
+- étape qui se déverrouille ;
+- réponse correcte avec impulsion courte ;
+- coffre qui s'ouvre après une vraie action.
 
-Le mouvement doit signaler un état musical ou une action.
-
-## Structure d'une mini-app
-1. Navigation minimale : Piano Lab + retour.
-2. Kicker : compétence / type d'exercice.
-3. Titre très clair.
-4. Une phrase expliquant le bénéfice.
-5. Le laboratoire / exercice principal.
-6. Une seule consigne pédagogique importante.
-7. Optionnel : prochaine app logique.
+Éviter les animations permanentes qui volent l'attention au piano.
 
 ## Règles UX
-- action possible sans compte ;
-- première interaction en moins de 10 secondes ;
-- les réglages avancés restent secondaires ;
-- sur mobile, aucune action principale ne doit nécessiter un scroll horizontal ;
-- boutons tactiles minimum ~44 px de hauteur quand possible ;
-- l'app doit rester compréhensible sans son, sauf exercice explicitement auditif ;
-- la réponse ne doit pas être révélée avant que l'élève ait eu le temps d'essayer.
+- action principale identifiable en moins de 2 secondes ;
+- première mission jouable en moins de 5 secondes ;
+- aucun choix complexe avant la première action ;
+- mobile-first ;
+- cibles tactiles >= 44 px ;
+- texte court ;
+- une mission = une compétence claire ;
+- la difficulté augmente par étapes ;
+- le résultat d'une mission doit modifier un état visible du profil ;
+- les scores doivent devenir réels dès que possible ;
+- l'écran donne la mission, le vrai piano reste le terrain de jeu.
 
-## Ton rédactionnel
-Court, adulte, direct, non scolaire.
+## Ton
+Court, énergique, adulte :
+- « À toi de jouer. »
+- « Mission du jour »
+- « Joue d'abord. Vérifie ensuite. »
+- « Débloque la suite. »
+- « Garde le groove. »
 
-Préférer :
-- « Joue d'abord ta réponse. Vérifie ensuite. »
-- « Garde le même rythme pendant quatre tours. »
-- « Cherche le mouvement le plus court. »
+Éviter la surenchère enfantine ou les félicitations creuses.
 
-Éviter :
-- « Bravo champion ! »
-- systèmes de points infantiles ;
-- sur-explication théorique dans l'interface.
-
-## Philosophie
-L'interface ne doit jamais devenir plus intéressante que le piano.
-
-> L'écran donne une mission. Le piano fait le reste.
+## Prochaine étape design
+Refondre progressivement les apps elles-mêmes pour qu'elles utilisent la même boucle : **mission → tentative → feedback → résultat → progression** et renvoient au hub avec un état mis à jour.
